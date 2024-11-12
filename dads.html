@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMG Countdown</title>
+    <!-- Favicon para la pestaña -->
+    <link rel="icon" href="https://cdn.discordapp.com/attachments/1232146818851405875/1305107338859905054/600.png?ex=6733cdad&is=67327c2d&hm=296a782864c65b323f60368174ff2d973f58f14efdcea2e0a409ac2f107748bd&" type="image/png">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://media.forgecdn.net/attachments/1003/739/2024-10-30_12.png') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            z-index: 1;
+        }
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            font-weight: lighter;
+        }
+        .contador {
+            font-size: 60px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 30px 0;
+        }
+        p {
+            font-size: 20px;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        /* Estilo para el botón Streamers */
+        .streamers-btn {
+            font-size: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 30px;
+        }
+        .streamers-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        /* Estilo para la imagen de los streamers */
+        .streamers-img {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 30px;
+        }
+        /* Estilo para el botón de cerrar */
+        .close-btn {
+            font-size: 20px;
+            font-weight: bold;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .close-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button class="streamers-btn" onclick="toggleStreamers()">Streamers</button>
+        <!-- Imagen de los streamers -->
+        <img id="streamersImg" class="streamers-img" src="https://cdn.discordapp.com/attachments/1232146818851405875/1305801256240939008/892_sin_titulo_20241110092941.png?ex=673459b0&is=67330830&hm=e9f4217fe758083e57730b3a756aca926bcf1d34de6decb4f81c21c965ef71bb&" alt="Streamers">
+        
+        <!-- Botón para cerrar la imagen de los streamers -->
+        <button id="closeBtn" class="close-btn" style="display: none;" onclick="closeStreamers()">Cerrar Imagen</button>
+
+        <h1>BMG - Countdown</h1>
+        <div id="contador" class="contador">Cargando...</div>
+        <p>Contando hasta 2025...</p>
+        <p>Enlace a Twitch: 
+            <a href="https://www.twitch.tv/brauliomaroto" target="_blank">Twitch de BraulioMaroto</a>
+        </p>
+    </div>
+
+    <script>
+        // Función para mostrar/ocultar la imagen de los streamers
+        function toggleStreamers() {
+            const img = document.getElementById('streamersImg');
+            const closeBtn = document.getElementById('closeBtn');
+            if (img.style.display === 'none' || img.style.display === '') {
+                img.style.display = 'block';
+                closeBtn.style.display = 'inline-block'; // Muestra el botón de cerrar
+            } else {
+                img.style.display = 'none';
+                closeBtn.style.display = 'none'; // Oculta el botón de cerrar
+            }
+        }
+
+        // Función para cerrar la imagen de los streamers
+        function closeStreamers() {
+            const img = document.getElementById('streamersImg');
+            const closeBtn = document.getElementById('closeBtn');
+            img.style.display = 'none';
+            closeBtn.style.display = 'none';
+        }
+
+        // Fecha objetivo para el contador (4 meses a partir de hoy)
+        const fechaObjetivo = new Date();
+        fechaObjetivo.setMonth(fechaObjetivo.getMonth() + 4); // Agrega 4 meses a la fecha actual
+
+        // Actualiza el contador cada segundo
+        const x = setInterval(function() {
+
+            // Fecha y hora actuales
+            const ahora = new Date().getTime();
+
+            // Calcula la diferencia entre la fecha objetivo y la actual
+            const diferencia = fechaObjetivo - ahora;
+
+            // Calcula los días, horas, minutos y segundos restantes
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+            // Muestra el contador
+            document.getElementById("contador").innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+
+            // Si el contador llega a cero, muestra "¡Es 2025!"
+            if (diferencia < 0) {
+                clearInterval(x);
+                document.getElementById("contador").innerHTML = "¡Es 2025!";
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
+
